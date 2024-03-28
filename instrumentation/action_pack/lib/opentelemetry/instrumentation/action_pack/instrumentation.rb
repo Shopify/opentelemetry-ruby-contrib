@@ -34,11 +34,13 @@ module OpenTelemetry
         def patch
           Handlers.subscribe
           ActionController::Live.include(Patches::ActionController::Live)
+          ActiveSupport::IsolatedExecutionState.prepend(Patches::ActiveSupport::IsolatedExecutionState)
         end
 
         def require_dependencies
           require_relative 'handlers'
           require_relative 'patches/action_controller/live'
+          require_relative 'patches/active_support/isolated_execution_state'
         end
 
         def require_railtie
